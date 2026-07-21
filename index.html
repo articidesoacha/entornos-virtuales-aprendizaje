@@ -1,0 +1,1498 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Bloque 4 | Entornos virtuales para el aprendizaje</title>
+
+  <style>
+
+    :root{
+      --azul:#3157d5;
+      --morado:#7757d9;
+      --verde:#2e8b57;
+      --amarillo:#e8a317;
+      --rojo:#d94c4c;
+
+      --fondo:#f4f7fb;
+      --blanco:#ffffff;
+      --texto:#20283a;
+      --gris:#6f7787;
+      --borde:#e3e8f0;
+    }
+
+    *{
+      box-sizing:border-box;
+    }
+
+    body{
+      margin:0;
+      font-family:
+      system-ui,
+      -apple-system,
+      BlinkMacSystemFont,
+      "Segoe UI",
+      sans-serif;
+
+      background:
+      linear-gradient(
+        180deg,
+        #eef1ff 0%,
+        var(--fondo) 35%,
+        var(--fondo) 100%
+      );
+
+      color:var(--texto);
+      line-height:1.6;
+    }
+
+    .contenedor{
+      width:min(1100px,92%);
+      margin:auto;
+      padding:35px 0 70px;
+    }
+
+    /* HERO */
+
+    .hero{
+      background:
+      linear-gradient(
+        135deg,
+        var(--azul),
+        var(--morado)
+      );
+
+      color:white;
+      padding:45px;
+      border-radius:28px;
+      box-shadow:
+      0 15px 40px rgba(40,50,100,.18);
+
+      position:relative;
+      overflow:hidden;
+    }
+
+    .hero::after{
+      content:"";
+      position:absolute;
+      width:280px;
+      height:280px;
+      border-radius:50%;
+      background:rgba(255,255,255,.10);
+      right:-80px;
+      top:-100px;
+    }
+
+    .etiqueta{
+      display:inline-block;
+      background:rgba(255,255,255,.18);
+      padding:7px 13px;
+      border-radius:999px;
+      font-size:.9rem;
+      font-weight:700;
+    }
+
+    h1{
+      margin:15px 0 10px;
+      font-size:clamp(2.2rem,5vw,4rem);
+      line-height:1.05;
+    }
+
+    .hero p{
+      max-width:760px;
+      font-size:1.1rem;
+      margin:0;
+    }
+
+    .datos{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      margin-top:22px;
+    }
+
+    .datos span{
+      background:rgba(255,255,255,.14);
+      padding:8px 12px;
+      border-radius:12px;
+      font-weight:600;
+    }
+
+    /* SECCIONES */
+
+    .seccion{
+      background:var(--blanco);
+      margin-top:24px;
+      padding:28px;
+      border-radius:22px;
+      border:1px solid var(--borde);
+      box-shadow:
+      0 8px 25px rgba(30,40,70,.07);
+    }
+
+    .numero{
+      width:38px;
+      height:38px;
+      display:inline-grid;
+      place-items:center;
+
+      border-radius:50%;
+      background:var(--azul);
+      color:white;
+
+      font-weight:800;
+      margin-right:8px;
+    }
+
+    h2{
+      margin-top:0;
+      font-size:1.8rem;
+    }
+
+    .pregunta-principal{
+      font-size:clamp(1.5rem,3vw,2.2rem);
+      font-weight:800;
+      margin:20px 0;
+    }
+
+    /* BOTONES */
+
+    button{
+      border:none;
+      border-radius:12px;
+
+      padding:12px 18px;
+
+      font-size:1rem;
+      font-weight:700;
+
+      cursor:pointer;
+
+      transition:.2s;
+    }
+
+    button:hover{
+      transform:translateY(-2px);
+    }
+
+    .btn-azul{
+      background:var(--azul);
+      color:white;
+    }
+
+    .btn-negro{
+      background:#202635;
+      color:white;
+    }
+
+    .btn-claro{
+      background:#eef1ff;
+      color:#3543a5;
+    }
+
+    .grupo-botones{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+    }
+
+    .respuesta{
+      display:none;
+
+      margin-top:18px;
+
+      padding:16px;
+
+      border-radius:14px;
+
+      background:#f7f8fc;
+      border-left:5px solid var(--azul);
+    }
+
+    /* NIVELES */
+
+    .niveles{
+      display:grid;
+      grid-template-columns:
+      repeat(3,1fr);
+
+      gap:18px;
+      margin-top:22px;
+    }
+
+    .nivel{
+      padding:22px;
+
+      border-radius:18px;
+
+      background:
+      linear-gradient(
+        180deg,
+        #ffffff,
+        #f9faff
+      );
+
+      border:1px solid var(--borde);
+
+      min-height:245px;
+    }
+
+    .nivel-numero{
+      display:inline-block;
+
+      padding:5px 10px;
+
+      border-radius:999px;
+
+      background:#eef1ff;
+      color:#3f48b5;
+
+      font-size:.8rem;
+      font-weight:800;
+    }
+
+    .nivel h3{
+      font-size:1.4rem;
+      margin:10px 0;
+    }
+
+    .ejemplo{
+      background:#f3f6fb;
+      border-radius:12px;
+      padding:12px;
+      margin-top:15px;
+    }
+
+    /* RETO */
+
+    .progreso{
+      height:13px;
+      background:#e8ebf2;
+      border-radius:999px;
+      overflow:hidden;
+      margin:18px 0 6px;
+    }
+
+    .barra{
+      width:0%;
+      height:100%;
+
+      background:
+      linear-gradient(
+        90deg,
+        var(--azul),
+        var(--morado)
+      );
+
+      transition:.3s;
+    }
+
+    .reto{
+      margin-top:18px;
+
+      border-left:5px solid var(--azul);
+
+      background:#fafbfe;
+
+      padding:20px;
+
+      border-radius:15px;
+    }
+
+    .reto.completado{
+      border-left-color:var(--verde);
+      background:#f1fbf5;
+    }
+
+    .reto h3{
+      margin-top:0;
+    }
+
+    textarea,
+    input,
+    select{
+      width:100%;
+
+      margin-top:8px;
+      margin-bottom:12px;
+
+      padding:13px;
+
+      border-radius:12px;
+
+      border:1px solid #cbd2df;
+
+      font:inherit;
+
+      background:white;
+    }
+
+    textarea{
+      min-height:110px;
+      resize:vertical;
+    }
+
+    label{
+      display:block;
+      margin-top:12px;
+      font-weight:700;
+    }
+
+    .recurso{
+      margin-top:15px;
+      padding:18px;
+
+      border-radius:14px;
+
+      border:2px dashed #bbc3d4;
+
+      background:white;
+    }
+
+    .foro{
+      margin-top:15px;
+
+      padding:14px;
+
+      background:white;
+
+      border-radius:12px;
+
+      border:1px solid var(--borde);
+    }
+
+    .estado{
+      font-weight:700;
+      color:var(--verde);
+    }
+
+    /* MICROPRODUCTO */
+
+    .microproducto{
+      background:
+      linear-gradient(
+        135deg,
+        #faf8ff,
+        #f3f6ff
+      );
+    }
+
+    .resultado{
+      margin-top:20px;
+
+      display:none;
+
+      padding:20px;
+
+      border-radius:16px;
+
+      background:#202635;
+
+      color:white;
+
+      white-space:pre-wrap;
+    }
+
+    /* CIERRE */
+
+    .cierre-grid{
+      display:grid;
+
+      grid-template-columns:
+      1fr 1fr;
+
+      gap:20px;
+    }
+
+    .caja-cierre{
+      padding:22px;
+
+      border-radius:18px;
+
+      background:#f7f9fd;
+
+      border:1px solid var(--borde);
+    }
+
+    .idea-clave{
+      display:inline-block;
+
+      background:#e9f8ef;
+      color:#27794c;
+
+      padding:7px 12px;
+
+      border-radius:999px;
+
+      font-weight:800;
+    }
+
+    footer{
+      margin-top:30px;
+
+      text-align:center;
+
+      color:var(--gris);
+
+      font-size:.9rem;
+    }
+
+    @media(max-width:800px){
+
+      .niveles{
+        grid-template-columns:1fr;
+      }
+
+      .cierre-grid{
+        grid-template-columns:1fr;
+      }
+
+      .hero{
+        padding:30px;
+      }
+
+    }
+
+  </style>
+</head>
+
+<body>
+
+<div class="contenedor">
+
+  <!-- ENCABEZADO -->
+
+  <section class="hero">
+
+    <span class="etiqueta">
+      BLOQUE 4 · 60 MINUTOS
+    </span>
+
+    <h1>
+      Entornos virtuales
+      para el aprendizaje
+    </h1>
+
+    <p>
+      Una experiencia práctica para analizar
+      cómo la tecnología puede pasar de
+      digitalizar contenidos a enriquecer y
+      transformar las experiencias de aprendizaje.
+    </p>
+
+    <div class="datos">
+
+      <span>🎯 Reflexión pedagógica</span>
+
+      <span>🧭 Exploración guiada</span>
+
+      <span>🤝 Trabajo en parejas</span>
+
+      <span>🧩 Microproducto</span>
+
+    </div>
+
+  </section>
+
+
+  <!-- PREGUNTA INICIAL -->
+
+  <section class="seccion">
+
+    <h2>
+      <span class="numero">1</span>
+      Activemos nuestras ideas
+    </h2>
+
+    <div class="pregunta-principal">
+
+      ¿Utilizar tecnología significa
+      necesariamente innovar?
+
+    </div>
+
+    <p>
+      Elige una respuesta antes de continuar.
+      No estamos buscando acertar, sino
+      reconocer nuestra posición inicial.
+    </p>
+
+    <div class="grupo-botones">
+
+      <button
+        class="btn-azul"
+        onclick="responderPregunta('si')">
+
+        Sí
+
+      </button>
+
+      <button
+        class="btn-claro"
+        onclick="responderPregunta('depende')">
+
+        Depende
+
+      </button>
+
+      <button
+        class="btn-negro"
+        onclick="responderPregunta('no')">
+
+        No
+
+      </button>
+
+    </div>
+
+    <div
+      id="respuestaInicial"
+      class="respuesta">
+    </div>
+
+  </section>
+
+
+  <!-- TRES NIVELES -->
+
+  <section class="seccion">
+
+    <h2>
+      <span class="numero">2</span>
+      Tres niveles para pensar
+      el uso de la tecnología
+    </h2>
+
+    <p>
+      No todo uso de tecnología produce el
+      mismo impacto pedagógico.
+      Podemos analizarlo desde tres niveles.
+    </p>
+
+    <div class="niveles">
+
+      <!-- NIVEL 1 -->
+
+      <div class="nivel">
+
+        <span class="nivel-numero">
+          NIVEL 1
+        </span>
+
+        <h3>
+          📄 Digitalizar
+        </h3>
+
+        <p>
+          La actividad permanece prácticamente
+          igual. Lo que cambia es el formato
+          o soporte.
+        </p>
+
+        <div class="ejemplo">
+
+          <strong>Ejemplo</strong>
+
+          <br>
+
+          Antes entregaba una fotocopia.
+
+          <br>
+
+          Ahora subo un PDF.
+
+        </div>
+
+      </div>
+
+
+      <!-- NIVEL 2 -->
+
+      <div class="nivel">
+
+        <span class="nivel-numero">
+          NIVEL 2
+        </span>
+
+        <h3>
+          🔗 Integrar
+        </h3>
+
+        <p>
+          Las herramientas digitales apoyan
+          actividades, comunicación,
+          seguimiento y acceso a recursos.
+        </p>
+
+        <div class="ejemplo">
+
+          <strong>Ejemplo</strong>
+
+          <br>
+
+          Uso un aula virtual para
+          compartir contenidos,
+          recibir tareas y comunicarme
+          con los estudiantes.
+
+        </div>
+
+      </div>
+
+
+      <!-- NIVEL 3 -->
+
+      <div class="nivel">
+
+        <span class="nivel-numero">
+          NIVEL 3
+        </span>
+
+        <h3>
+          🚀 Transformar
+        </h3>
+
+        <p>
+          La tecnología permite experiencias
+          de interacción, colaboración,
+          creación o retroalimentación
+          que enriquecen el aprendizaje.
+        </p>
+
+        <div class="ejemplo">
+
+          <strong>Ejemplo</strong>
+
+          <br>
+
+          Los estudiantes producen,
+          comparten, comentan y mejoran
+          sus trabajos con apoyo del
+          entorno virtual.
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- RETO -->
+
+  <section class="seccion">
+
+    <h2>
+      <span class="numero">3</span>
+      Reto práctico
+    </h2>
+
+    <p>
+
+      <strong>Trabajen en parejas.</strong>
+
+      Completen las siguientes acciones
+      dentro de este entorno virtual.
+
+    </p>
+
+
+    <div class="progreso">
+
+      <div
+        id="barra"
+        class="barra">
+      </div>
+
+    </div>
+
+    <p id="textoProgreso">
+
+      0 de 6 acciones completadas
+
+    </p>
+
+
+    <!-- RETO 1 -->
+
+    <div
+      id="reto1"
+      class="reto">
+
+      <h3>
+        1. Localiza un recurso
+      </h3>
+
+      <p>
+        Encuentra el recurso destacado,
+        léelo e identifica su idea principal.
+      </p>
+
+      <div class="recurso">
+
+        <h3>
+          📘 Recurso
+        </h3>
+
+        <strong>
+          Del uso tecnológico
+          al valor pedagógico
+        </strong>
+
+        <p>
+
+          La tecnología no es innovadora
+          por sí sola.
+
+          Su valor depende de las
+          oportunidades que genera
+          para aprender, participar,
+          colaborar, crear,
+          recibir retroalimentación
+          o resolver problemas.
+
+        </p>
+
+        <button
+          class="btn-azul"
+          onclick="completar(1)">
+
+          He leído el recurso
+
+        </button>
+
+      </div>
+
+    </div>
+
+
+    <!-- RETO 2 -->
+
+    <div
+      id="reto2"
+      class="reto">
+
+      <h3>
+        2. Participa en un foro
+      </h3>
+
+      <label>
+
+        ¿Qué diferencia encuentras entre
+        “usar tecnología” e
+        “innovar pedagógicamente”?
+
+      </label>
+
+      <textarea
+        id="foroTexto"
+        placeholder="Escribe aquí tu aporte...">
+      </textarea>
+
+      <button
+        class="btn-azul"
+        onclick="publicarForo()">
+
+        Publicar aporte
+
+      </button>
+
+      <div
+        id="foroPublicado">
+      </div>
+
+    </div>
+
+
+    <!-- RETO 3 -->
+
+    <div
+      id="reto3"
+      class="reto">
+
+      <h3>
+        3. Sube un archivo
+      </h3>
+
+      <p>
+        Simula la entrega de una evidencia
+        dentro del entorno virtual.
+      </p>
+
+      <input
+        type="file"
+        id="archivo">
+
+      <p
+        id="nombreArchivo">
+        Ningún archivo seleccionado.
+      </p>
+
+    </div>
+
+
+    <!-- RETO 4 -->
+
+    <div
+      id="reto4"
+      class="reto">
+
+      <h3>
+        4. Comenta el aporte
+        de un compañero
+      </h3>
+
+      <div class="foro">
+
+        <strong>
+          Aporte de un compañero
+        </strong>
+
+        <p>
+
+          “Creo que innovar no depende
+          de utilizar muchas herramientas,
+          sino de diseñar experiencias
+          en las que el estudiante
+          tenga un papel más activo.”
+
+        </p>
+
+      </div>
+
+      <label>
+        Tu comentario
+      </label>
+
+      <textarea
+        id="comentario"
+        placeholder="Escribe una observación, pregunta o sugerencia...">
+      </textarea>
+
+      <button
+        class="btn-azul"
+        onclick="publicarComentario()">
+
+        Publicar comentario
+
+      </button>
+
+      <p
+        id="estadoComentario">
+      </p>
+
+    </div>
+
+
+    <!-- RETO 5 -->
+
+    <div
+      id="reto5"
+      class="reto">
+
+      <h3>
+        5. Identifica una aplicación
+        en tu asignatura
+      </h3>
+
+      <label>
+
+        ¿Cómo podrías utilizar
+        un entorno virtual
+        en una actividad real?
+
+      </label>
+
+      <textarea
+        id="aplicacion"
+        placeholder="Describe una idea concreta...">
+      </textarea>
+
+      <button
+        class="btn-azul"
+        onclick="guardarAplicacion()">
+
+        Guardar idea
+
+      </button>
+
+    </div>
+
+
+    <!-- RETO 6 -->
+
+    <div
+      id="reto6"
+      class="reto">
+
+      <h3>
+        6. Analiza tu nivel
+        de integración
+      </h3>
+
+      <label>
+
+        La propuesta que acabas
+        de plantear se acerca más a:
+
+      </label>
+
+      <select id="nivelSeleccionado">
+
+        <option value="">
+          Selecciona una opción
+        </option>
+
+        <option value="Digitalizar">
+          Nivel 1 · Digitalizar
+        </option>
+
+        <option value="Integrar">
+          Nivel 2 · Integrar
+        </option>
+
+        <option value="Transformar">
+          Nivel 3 · Transformar
+        </option>
+
+      </select>
+
+      <button
+        class="btn-azul"
+        onclick="guardarNivel()">
+
+        Guardar respuesta
+
+      </button>
+
+    </div>
+
+  </section>
+
+
+  <!-- MICROPRODUCTO -->
+
+  <section class="seccion microproducto">
+
+    <h2>
+      <span class="numero">4</span>
+      Microproducto
+    </h2>
+
+    <p>
+
+      Lleva ahora la reflexión
+      a tu propia práctica docente.
+
+    </p>
+
+
+    <label>
+
+      Una actividad que actualmente
+      realizo es:
+
+    </label>
+
+    <textarea
+      id="actividadActual"
+      placeholder="Describe brevemente una actividad de tu asignatura...">
+    </textarea>
+
+
+    <label>
+
+      Podría enriquecerla mediante
+      un entorno virtual haciendo:
+
+    </label>
+
+    <textarea
+      id="actividadEnriquecida"
+      placeholder="Explica qué cambiarías o añadirías...">
+    </textarea>
+
+
+    <label>
+
+      El valor pedagógico de utilizar
+      la tecnología sería:
+
+    </label>
+
+    <textarea
+      id="valorPedagogico"
+      placeholder="Piensa en participación, colaboración, retroalimentación, autonomía, creación...">
+    </textarea>
+
+
+    <div class="grupo-botones">
+
+      <button
+        class="btn-azul"
+        onclick="generarMicroproducto()">
+
+        Generar mi propuesta
+
+      </button>
+
+      <button
+        class="btn-negro"
+        onclick="descargarMicroproducto()">
+
+        Descargar reflexión
+
+      </button>
+
+    </div>
+
+
+    <div
+      id="resultado"
+      class="resultado">
+    </div>
+
+  </section>
+
+
+  <!-- CIERRE -->
+
+  <section class="seccion">
+
+    <h2>
+      <span class="numero">5</span>
+      Cierre pedagógico
+    </h2>
+
+    <div class="cierre-grid">
+
+
+      <div class="caja-cierre">
+
+        <h3>
+          💭 Pregunta de salida
+        </h3>
+
+        <p class="pregunta-principal"
+           style="font-size:1.35rem;">
+
+          ¿Qué puede hacer ahora
+          el estudiante gracias
+          al entorno virtual que
+          antes era difícil,
+          limitado o imposible?
+
+        </p>
+
+      </div>
+
+
+      <div class="caja-cierre">
+
+        <span class="idea-clave">
+          IDEA CLAVE
+        </span>
+
+        <h3>
+          Tecnología con intención pedagógica
+        </h3>
+
+        <p>
+
+          Innovar no significa simplemente
+          incorporar una plataforma,
+          aplicación o dispositivo.
+
+        </p>
+
+        <p>
+
+          La pregunta fundamental es:
+
+        </p>
+
+        <strong>
+
+          ¿Qué mejora en la experiencia
+          de aprendizaje gracias
+          al uso de la tecnología?
+
+        </strong>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <footer>
+
+    Recurso didáctico · Bloque 4 ·
+    Entornos virtuales para el aprendizaje
+
+  </footer>
+
+</div>
+
+
+<script>
+
+  /* ---------------------------------
+     PREGUNTA INICIAL
+  --------------------------------- */
+
+  function responderPregunta(respuesta){
+
+    const caja =
+    document.getElementById(
+      "respuestaInicial"
+    );
+
+    caja.style.display = "block";
+
+    if(respuesta === "si"){
+
+      caja.innerHTML =
+      "<strong>Interesante.</strong> " +
+      "Durante esta actividad analizaremos " +
+      "si toda incorporación de tecnología " +
+      "produce realmente innovación pedagógica.";
+
+    }
+
+    if(respuesta === "depende"){
+
+      caja.innerHTML =
+      "<strong>Buena observación.</strong> " +
+      "Precisamente exploraremos de qué depende " +
+      "que una tecnología aporte verdadero valor " +
+      "al aprendizaje.";
+
+    }
+
+    if(respuesta === "no"){
+
+      caja.innerHTML =
+      "<strong>Esta será una idea central.</strong> " +
+      "Utilizar tecnología no garantiza innovación. " +
+      "El propósito pedagógico y el diseño " +
+      "de la experiencia son fundamentales.";
+
+    }
+
+  }
+
+
+  /* ---------------------------------
+     PROGRESO
+  --------------------------------- */
+
+  const tareas =
+  [false,false,false,false,false,false];
+
+  function completar(numero){
+
+    tareas[numero - 1] = true;
+
+    const reto =
+    document.getElementById(
+      "reto" + numero
+    );
+
+    reto.classList.add(
+      "completado"
+    );
+
+    actualizarProgreso();
+
+  }
+
+
+  function actualizarProgreso(){
+
+    const completadas =
+    tareas.filter(
+      item => item
+    ).length;
+
+    const porcentaje =
+    (completadas / tareas.length) * 100;
+
+    document.getElementById(
+      "barra"
+    ).style.width =
+    porcentaje + "%";
+
+    document.getElementById(
+      "textoProgreso"
+    ).textContent =
+    completadas +
+    " de 6 acciones completadas";
+
+  }
+
+
+  /* ---------------------------------
+     FORO
+  --------------------------------- */
+
+  function publicarForo(){
+
+    const texto =
+    document.getElementById(
+      "foroTexto"
+    ).value.trim();
+
+    if(texto === ""){
+
+      alert(
+        "Escribe primero tu aporte."
+      );
+
+      return;
+
+    }
+
+    document.getElementById(
+      "foroPublicado"
+    ).innerHTML =
+    '<div class="foro">' +
+    '<strong>Tu aporte publicado</strong>' +
+    '<p>' + texto + '</p>' +
+    '</div>';
+
+    completar(2);
+
+  }
+
+
+  /* ---------------------------------
+     ARCHIVO
+  --------------------------------- */
+
+  document.getElementById(
+    "archivo"
+  ).addEventListener(
+    "change",
+    function(){
+
+      if(this.files.length > 0){
+
+        document.getElementById(
+          "nombreArchivo"
+        ).textContent =
+        "Archivo seleccionado: " +
+        this.files[0].name;
+
+        completar(3);
+
+      }
+
+    }
+  );
+
+
+  /* ---------------------------------
+     COMENTARIO
+  --------------------------------- */
+
+  function publicarComentario(){
+
+    const texto =
+    document.getElementById(
+      "comentario"
+    ).value.trim();
+
+    if(texto === ""){
+
+      alert(
+        "Escribe tu comentario antes de publicarlo."
+      );
+
+      return;
+
+    }
+
+    document.getElementById(
+      "estadoComentario"
+    ).innerHTML =
+    '<span class="estado">' +
+    '✓ Comentario publicado' +
+    '</span>';
+
+    completar(4);
+
+  }
+
+
+  /* ---------------------------------
+     APLICACIÓN
+  --------------------------------- */
+
+  function guardarAplicacion(){
+
+    const texto =
+    document.getElementById(
+      "aplicacion"
+    ).value.trim();
+
+    if(texto === ""){
+
+      alert(
+        "Describe primero una posibilidad de aplicación."
+      );
+
+      return;
+
+    }
+
+    completar(5);
+
+  }
+
+
+  /* ---------------------------------
+     NIVEL
+  --------------------------------- */
+
+  function guardarNivel(){
+
+    const valor =
+    document.getElementById(
+      "nivelSeleccionado"
+    ).value;
+
+    if(valor === ""){
+
+      alert(
+        "Selecciona un nivel."
+      );
+
+      return;
+
+    }
+
+    completar(6);
+
+  }
+
+
+  /* ---------------------------------
+     MICROPRODUCTO
+  --------------------------------- */
+
+  function generarMicroproducto(){
+
+    const actividad =
+    document.getElementById(
+      "actividadActual"
+    ).value.trim();
+
+    const enriquecida =
+    document.getElementById(
+      "actividadEnriquecida"
+    ).value.trim();
+
+    const valor =
+    document.getElementById(
+      "valorPedagogico"
+    ).value.trim();
+
+
+    if(
+      actividad === "" ||
+      enriquecida === "" ||
+      valor === ""
+    ){
+
+      alert(
+        "Completa las tres preguntas del microproducto."
+      );
+
+      return;
+
+    }
+
+
+    const texto =
+
+    "MI PROPUESTA DE INTEGRACIÓN TECNOLÓGICA\n\n" +
+
+    "Actividad que actualmente realizo:\n" +
+    actividad +
+
+    "\n\nPodría enriquecerla mediante un entorno virtual haciendo:\n" +
+    enriquecida +
+
+    "\n\nEl valor pedagógico de utilizar la tecnología sería:\n" +
+    valor;
+
+
+    const resultado =
+    document.getElementById(
+      "resultado"
+    );
+
+    resultado.style.display =
+    "block";
+
+    resultado.textContent =
+    texto;
+
+  }
+
+
+  /* ---------------------------------
+     DESCARGA TXT
+  --------------------------------- */
+
+  function descargarMicroproducto(){
+
+    generarMicroproducto();
+
+    const contenido =
+    document.getElementById(
+      "resultado"
+    ).textContent;
+
+    if(contenido.trim() === ""){
+      return;
+    }
+
+    const archivo =
+    new Blob(
+      [contenido],
+      {
+        type:
+        "text/plain;charset=utf-8"
+      }
+    );
+
+    const enlace =
+    document.createElement(
+      "a"
+    );
+
+    enlace.href =
+    URL.createObjectURL(
+      archivo
+    );
+
+    enlace.download =
+    "microproducto-entorno-virtual.txt";
+
+    enlace.click();
+
+    URL.revokeObjectURL(
+      enlace.href
+    );
+
+  }
+
+</script>
+
+</body>
+</html>
